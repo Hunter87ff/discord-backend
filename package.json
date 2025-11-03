@@ -10,7 +10,7 @@
         "start": "node dist/index.js",
         "dev": "nodemon --watch src --ext ts,js,ejs --exec \"npx ts-node --swc -r tsconfig-paths/register src/index.ts\"",
         "format": "prettier --write \"src/**/*.{ts,js,json,md}\"",
-        "build": "npx tsc --skipLibCheck && cp -r src/views dist/views"
+        "build": "npx tsc --skipLibCheck"
     },
     "_moduleAliases": {
         "@": "./dist",
