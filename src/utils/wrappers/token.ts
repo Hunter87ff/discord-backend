@@ -34,7 +34,7 @@ export default class Token {
         }
     }
 
-    toToken(): string {
+    toString(): string {
         const payload: TokenPayload = {
             _id: this._id,
             name: this.name,

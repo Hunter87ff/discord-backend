@@ -1,11 +1,14 @@
 
 
+
+
 export const appConfig = {
-    port: process.env.PORT || 3000,
+    port: process.env.PORT || 8000,
     jwtSecret: process.env.JWT_SECRET || 'your_jwt_secret',
     mongoUri: process.env.MONGO_URI || 'mongodb://localhost:27017/discord-backend',
     jwtExpiresIn: 1000 * 60 * 60 * 24 * 30, // 30 days
-    debug_mode: process.env.DEBUG_MODE === 'true' || false
+    debug_mode: process.env.DEBUG_MODE === 'true' || false,
+    endpoint : process.env.HOST || `http://localhost:${process.env.PORT || 8000}`
 }
 
 

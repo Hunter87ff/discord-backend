@@ -86,10 +86,11 @@ class Logger {
     }
 }
 
-export { Logger, LoggerLevel };
+const logger = Logger.instance;
+export { Logger, LoggerLevel, logger };
 
 // Usage example
-const logger = Logger.instance;
+
 // logger.setLevel(LoggerLevel.INFO);
 // logger.debug("This is a debug message"); // Will not log
 // logger.info("This is an info message"); // Will log
