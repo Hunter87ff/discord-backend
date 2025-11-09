@@ -8,9 +8,19 @@ class AuthController {
     }
 }
 
-// const sm = 2048
-// const cpt = 1n << 35n
 
-// const cperm = (1n << 35n) + BigInt(sm)
+const sm  = 1n << 11n // send messages
+const cpt  = 1n << 35n // create public threads
 
-// console.log("is cpt allowed:", (cperm & cpt) === cpt)
+const permissions = cpt + sm
+console.log("can send message? :", (permissions & sm) === sm)
+//  can send message? : true
+
+
+const x = 1 << 3
+console.log("x:", x)
+const p = x + 4
+console.log((p&x), "x:", (p & x) === x)
+// 01100
+// 01000
+// 01000
