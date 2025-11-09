@@ -17,13 +17,18 @@ declare module "express-serve-static-core" {
     }
 }
 
-export default async function middleware(req: Request, res: Response, next: e.NextFunction) {
-    req.app.use(cors());
-    req.app.use(e.json());
-    req.app.use(cookieParser());
+async function init(req : Request, res: Response, next: e.NextFunction) {
     res.logger = logger;
     res.handler = new ResponseHandler();
     res.sanitizer = Sanitizer;
     res.models = models;
     next();
+}
+
+
+export default async function middleware(app : e.Application) {
+    app.use(cors());
+    app.use(e.json());
+    app.use(cookieParser());
+    app.use(init);
 }

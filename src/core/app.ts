@@ -10,12 +10,8 @@ export default class DiscordBackendApp {
 
     constructor(){
         this.app = e();
-        this.app.use(e.json());
-        this.app.use(middleware)
+        middleware(this.app);
         this.app.use("/", routes)
-        this.app.get("/t", (req, res) => {
-            res.send("Hello, this is Discord Backend API!");
-        });
     }
 
     async start(){
