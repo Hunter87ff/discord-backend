@@ -6,7 +6,6 @@ export default class AuthController {
 
     static async signup(req: Request, res: Response) {
         try{
-            console.log(req.body)
             const {username, email, password} = req.body;
 
             const tempToken = new Token({
