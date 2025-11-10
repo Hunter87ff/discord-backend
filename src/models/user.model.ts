@@ -24,7 +24,7 @@ const userSchema = new Schema<IUser>({
     username: {
         type: String,
         required: [true, 'Username is required'],
-        unique: true,
+        unique: [true, 'Username must be unique'],
         trim: true,
         minlength: [3, 'Username must be at least 3 characters long'],
         maxlength: [30, 'Username cannot exceed 30 characters']
@@ -53,7 +53,7 @@ const userSchema = new Schema<IUser>({
     email: {
         type: String,
         required: [true, 'Email is required'],
-        unique: true,
+        unique: [true, 'Email must be unique'],
         lowercase: true,
         trim: true,
         match: [
@@ -77,7 +77,7 @@ const userSchema = new Schema<IUser>({
     },
     phone: {
         type: Number,
-        unique: true,
+        unique: [true, 'Phone number must be unique'],
         sparse: true, // Allows null values while maintaining uniqueness
         validate: {
             validator: function(v: number) {
@@ -92,11 +92,18 @@ const userSchema = new Schema<IUser>({
 });
 
 
-// Indexes for better query performance
-// userSchema.index({ email: 1 });
-// userSchema.index({ username: 1 });
+userSchema.pre<IUser>('save', function(next) {
+    if (!this.isModified('password')) {
+        return next();
+    }
+    // Hash the password before saving (pseudo-code, replace with actual hashing logic)
+    next();
+});
+
 
 // Export the User model
 const UserModel = model<IUser>('User', userSchema);
+
+
 
 export default UserModel;

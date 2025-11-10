@@ -3,7 +3,7 @@ import { appConfig } from '@/config';
 
 
 class ResponseHandler {
-    async forbidden(res: Response, message: any = 'Forbidden', data: any = {}) {
+    static async forbidden(res: Response, message: any = 'Forbidden', data: any = {}) {
         res.status(403).json({
             status: 403,
             message: message,
@@ -11,7 +11,7 @@ class ResponseHandler {
         });
     }
 
-    async conflict(res: Response, message: any = 'Resource Conflict', data: any = {}) {
+    static async conflict(res: Response, message: any = 'Resource Conflict', data: any = {}) {
         res.status(409).json({
             status: 409,
             message: message,
@@ -19,7 +19,7 @@ class ResponseHandler {
         });
     }
 
-    async notFound(res: Response, message: any = 'Not Found', data: any = {}) {
+    static async notFound(res: Response, message: any = 'Not Found', data: any = {}) {
         res.status(404).json({
             status: 404,
             message: message,
@@ -27,7 +27,7 @@ class ResponseHandler {
         });
     }
 
-    async internalServerError(
+    static async internalServerError(
         res: Response,
         message: any = 'Internal Server Error',
         data: any = {},
@@ -35,12 +35,12 @@ class ResponseHandler {
         res.status(500).json({
             status: 500,
             message: message,
-            data: data,
+            data: data.toString? data.toString() : data,
         });
         appConfig.debug_mode && res.logger.error(message, data);
     }
 
-    async success(res: Response, message: any = 'Success', data: any = {}) {
+    static async success(res: Response, message: any = 'Success', data: any = {}) {
         res.status(200).json({
             status: 200,
             message: message,
@@ -48,7 +48,7 @@ class ResponseHandler {
         });
     }
 
-    async created(res: Response, message: any = 'Resource Created', data: any = {}) {
+    static async created(res: Response, message: any = 'Resource Created', data: any = {}) {
         res.status(201).json({
             status: 201,
             message: message,
@@ -56,21 +56,21 @@ class ResponseHandler {
         });
     }
 
-    async nodata(res: Response, message: any = 'No data') {
+    static async nodata(res: Response, message: any = 'No data') {
         res.status(204).json({
             status: 204,
             message: message,
         });
     }
 
-    async notModified(res: Response, message: any = 'Not Modified') {
+    static async notModified(res: Response, message: any = 'Not Modified') {
         res.status(304).json({
             status: 304,
             message: message,
         });
     }
 
-    async badRequest(res: Response, message: any = 'Bad Request', data: any = {}) {
+    static async badRequest(res: Response, message: any = 'Bad Request', data: any = {}) {
         res.status(400).json({
             status: 400,
             message: message,
@@ -78,7 +78,7 @@ class ResponseHandler {
         });
     }
 
-    async unAuthorized(res: Response, message: any = 'Unauthorized', data: any = {}) {
+    static async unAuthorized(res: Response, message: any = 'Unauthorized', data: any = {}) {
         res.status(401).json({
             status: 401,
             message: message,
@@ -86,7 +86,7 @@ class ResponseHandler {
         });
     }
 
-    async adminOnly(res: Response, message: any = 'Admin Access Only', data: any = {}) {
+    static async adminOnly(res: Response, message: any = 'Admin Access Only', data: any = {}) {
         res.status(403).json({
             status: 403,
             message: message,
