@@ -24,6 +24,6 @@ export const emailConfig = {
         }
     },
     from: {
-        support: process.env.SUPPORT_EMAIL as string
+        support: process.env.SUPPORT_EMAIL as string 
     }
 }

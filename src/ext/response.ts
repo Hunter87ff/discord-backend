@@ -35,7 +35,7 @@ class ResponseHandler {
         res.status(500).json({
             status: 500,
             message: message,
-            data: data.toString? data.toString() : data,
+            data: data.message? data.message : data,
         });
         appConfig.debug_mode && res.logger.error(message, data);
     }
@@ -47,6 +47,8 @@ class ResponseHandler {
             data: data,
         });
     }
+
+    static ok = ResponseHandler.success;
 
     static async created(res: Response, message: any = 'Resource Created', data: any = {}) {
         res.status(201).json({

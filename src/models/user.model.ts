@@ -1,3 +1,4 @@
+import Helper from '@/utils/helper';
 import {Schema, model, Document} from 'mongoose';
 
 // Interface for User Document
@@ -9,7 +10,8 @@ export interface IUser extends Document {
     preference: string;
     status: string;
     email: string;
-    isVerified: boolean;
+    otp: string;
+    is_verified: boolean;
     password: string;
     token: string;
     phone: number;
@@ -57,19 +59,23 @@ const userSchema = new Schema<IUser>({
         lowercase: true,
         trim: true,
         match: [
-            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/,
             'Please provide a valid email address'
         ]
     },
-    isVerified: {
+    is_verified: {
         type: Boolean,
         default: false
+    },
+
+    otp : {
+        type: String,
+        default : () => Helper.generateOTP()
     },
     password: {
         type: String,
         required: [true, 'Password is required'],
         minlength: [8, 'Password must be at least 8 characters long'],
-        select: false // Don't include password in queries by default
     },
     token : {
         type : String,
@@ -92,11 +98,11 @@ const userSchema = new Schema<IUser>({
 });
 
 
-userSchema.pre<IUser>('save', function(next) {
+userSchema.pre<IUser>('save', async function(next) {
     if (!this.isModified('password')) {
         return next();
     }
-    // Hash the password before saving (pseudo-code, replace with actual hashing logic)
+    this.password = await Helper.hash(this.password);
     next();
 });
 

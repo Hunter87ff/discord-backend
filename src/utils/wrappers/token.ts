@@ -3,7 +3,7 @@ import { appConfig } from '../../config';
 
 interface TokenPayload {
     _id: string;
-    name: string;
+    username: string;
     email: string;
 }
 
@@ -11,12 +11,12 @@ interface TokenPayload {
 
 export default class Token {
     public _id: string;
-    public name: string;
+    public username: string;
     public email: string;
 
     constructor(payload: TokenPayload) {
         this._id = payload._id;
-        this.name = payload.name;
+        this.username = payload.username;
         this.email = payload.email;
     }
 
@@ -25,7 +25,7 @@ export default class Token {
             const decoded = jsonwebtoken.verify(token, jwtSecret) as TokenPayload;
             return new Token({
                 _id: decoded._id,
-                name: decoded.name,
+                username: decoded.username,
                 email: decoded.email
             });
         } catch (error) {
@@ -37,7 +37,7 @@ export default class Token {
     toString(): string {
         const payload: TokenPayload = {
             _id: this._id,
-            name: this.name,
+            username: this.username,
             email: this.email
         };
         return jsonwebtoken.sign(payload, appConfig.jwtSecret, { expiresIn: appConfig.jwtExpiresIn });
