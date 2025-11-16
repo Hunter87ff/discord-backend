@@ -4,6 +4,22 @@ import Token from '@/utils/wrappers/token';
 
 export default class AuthController {
 
+
+    /*v1 auth check endpoint 
+     * @route GET /v1/auth
+     * @access Private
+     */
+    static async authCheck(req: Request, res: Response) {
+        try{
+            const user = await res.models.user.findOne({token : req.token}).select("-password -otp -token");
+            if(!user){
+                return res.handler.unAuthorized(res, "Invalid token");
+            }
+            res.handler.ok(res, "User is authenticated", user);
+        }catch(error){
+            res.handler.internalServerError(res, "Failed to check auth", error)
+        }
+    }
     
     /**
      * v1 signup endpoint 
@@ -29,6 +45,13 @@ export default class AuthController {
                 token: tempToken.toString(), // Placeholder, will be updated after token generation
             });
 
+            // send verification email
+            const otp = res.helper.generateOTP();
+            user.otp = otp;
+            await user.save();
+
+            await res.services.MailService.sendOtp(user.email, otp);
+
             res.handler.created(res, "User signed up successfully", user)
 
         }catch(error){
@@ -51,7 +74,7 @@ export default class AuthController {
                 return res.handler.badRequest(res, "Email and OTP are required for verification");
             }
 
-            const user = await res.models.user.findOne({email : email.toString(), is_verified : false});
+            const user = await res.models.user.findOne({email : email.toString(), is_verified : false}).select("-password");
             if (!user) {
                 return  res.handler.notFound(res, "User not found or already verified");
             }

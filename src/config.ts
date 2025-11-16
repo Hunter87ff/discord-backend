@@ -19,8 +19,8 @@ export const emailConfig = {
         port: 465,
         secure: true,
         auth: {
-            user: process.env.EMAIL_USERNAME as string,
-            pass: process.env.EMAIL_PASSWORD as string
+            user: process.env.EMAIL_USERNAME as string, // host email
+            pass: process.env.EMAIL_PASSWORD as string // host email app password !!
         }
     },
     from: {
